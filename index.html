@@ -1,0 +1,2555 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>6ª. GENERACIÓN · TERCER TETRAMESTRE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <!-- Logo/Title -->
+                <div class="flex items-center space-x-3">
+                    <iconify-icon icon="solar:graduation-cap-bold" class="text-2xl text-blue-600"></iconify-icon>
+                    <div>
+                        <h1 class="text-lg font-bold text-gray-900">6ª. GENERACIÓN</h1>
+                        <p class="text-sm text-gray-600">TETRAMESTRE 3 DE 6</p>
+                    </div>
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:flex space-x-6">
+                    <button onclick="changePage('dashboard')" id="nav-dashboard" class="nav-item text-blue-600 border-b-2 border-blue-600">
+                        <iconify-icon icon="solar:home-2-bold" class="mr-2"></iconify-icon>
+                        Inicio
+                    </button>
+                    <button onclick="changePage('notes')" id="nav-notes" class="nav-item">
+                        <iconify-icon icon="solar:notes-bold" class="mr-2"></iconify-icon>
+                        Notas
+                    </button>
+                    <button onclick="changePage('calendar')" id="nav-calendar" class="nav-item">
+                        <iconify-icon icon="solar:calendar-bold" class="mr-2"></iconify-icon>
+                        Calendario
+                    </button>
+                    <button onclick="changePage('birthdays')" id="nav-birthdays" class="nav-item">
+                        <iconify-icon icon="solar:calendar-mark-bold" class="mr-2"></iconify-icon>
+                        Cumpleaños
+                    </button>
+                    <button onclick="changePage('library')" id="nav-library" class="nav-item">
+                        <iconify-icon icon="solar:library-bold" class="mr-2"></iconify-icon>
+                        Biblioteca
+                    </button>
+                    <button onclick="changePage('study-plan')" id="nav-study-plan" class="nav-item">
+                        <iconify-icon icon="solar:book-2-bold" class="mr-2"></iconify-icon>
+                        Plan
+                    </button>
+                    <button onclick="changePage('ai-assistant')" id="nav-ai-assistant" class="nav-item">
+                        <iconify-icon icon="solar:cpu-bolt-bold" class="mr-2"></iconify-icon>
+                        AI
+                    </button>
+                </nav>
+
+                <!-- Mobile menu button -->
+                <button class="md:hidden p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100" onclick="toggleMobileMenu()">
+                    <iconify-icon icon="solar:hamburger-menu-bold" class="text-xl"></iconify-icon>
+                </button>
+            </div>
+
+            <!-- Mobile Navigation -->
+            <nav id="mobile-menu" class="md:hidden hidden pb-4 border-t">
+                <div class="flex flex-col space-y-2 mt-4">
+                    <button onclick="changePage('dashboard'); toggleMobileMenu()" class="mobile-nav-item text-left p-3 rounded-md text-blue-600 bg-blue-50">
+                        <iconify-icon icon="solar:home-2-bold" class="mr-2"></iconify-icon>
+                        Inicio
+                    </button>
+                    <button onclick="changePage('notes'); toggleMobileMenu()" class="mobile-nav-item text-left p-3 rounded-md text-gray-700 hover:bg-gray-100">
+                        <iconify-icon icon="solar:notes-bold" class="mr-2"></iconify-icon>
+                        Notas
+                    </button>
+                    <button onclick="changePage('calendar'); toggleMobileMenu()" class="mobile-nav-item text-left p-3 rounded-md text-gray-700 hover:bg-gray-100">
+                        <iconify-icon icon="solar:calendar-bold" class="mr-2"></iconify-icon>
+                        Calendario
+                    </button>
+                    <button onclick="changePage('birthdays'); toggleMobileMenu()" class="mobile-nav-item text-left p-3 rounded-md text-gray-700 hover:bg-gray-100">
+                        <iconify-icon icon="solar:calendar-mark-bold" class="mr-2"></iconify-icon>
+                        Cumpleaños
+                    </button>
+                    <button onclick="changePage('library'); toggleMobileMenu()" class="mobile-nav-item text-left p-3 rounded-md text-gray-700 hover:bg-gray-100">
+                        <iconify-icon icon="solar:library-bold" class="mr-2"></iconify-icon>
+                        Biblioteca
+                    </button>
+                    <button onclick="changePage('study-plan'); toggleMobileMenu()" class="mobile-nav-item text-left p-3 rounded-md text-gray-700 hover:bg-gray-100">
+                        <iconify-icon icon="solar:book-2-bold" class="mr-2"></iconify-icon>
+                        Plan
+                    </button>
+                    <button onclick="changePage('ai-assistant'); toggleMobileMenu()" class="mobile-nav-item text-left p-3 rounded-md text-gray-700 hover:bg-gray-100">
+                        <iconify-icon icon="solar:cpu-bolt-bold" class="mr-2"></iconify-icon>
+                        AI
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div id="content"></div>
+    </main>
+
+    <!-- Modal for Add Note -->
+    <div id="addNoteModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg shadow-xl max-w-lg w-full">
+                <div class="px-6 py-4 border-b">
+                    <h3 class="text-lg font-semibold text-gray-900">Agregar Nota</h3>
+                </div>
+                <div class="px-6 py-4">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Tu nombre</label>
+                            <input type="text" id="noteAuthor" class="w-full p-3 border border-gray-300 rounded-md" placeholder="Ingresa tu nombre">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Materia</label>
+                            <select id="noteSubject" class="w-full p-3 border border-gray-300 rounded-md">
+                                <option value="">Selecciona una materia</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Tipo</label>
+                            <select id="noteType" class="w-full p-3 border border-gray-300 rounded-md">
+                                <option value="tarea">📝 Tarea Pendiente</option>
+                                <option value="examen">📊 Examen</option>
+                                <option value="entrega">📤 Entrega</option>
+                                <option value="recordatorio">⏰ Recordatorio</option>
+                                <option value="info">ℹ️ Información General</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Fecha límite (opcional)</label>
+                            <input type="date" id="noteDate" class="w-full p-3 border border-gray-300 rounded-md">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Descripción</label>
+                            <textarea id="noteContent" rows="4" class="w-full p-3 border border-gray-300 rounded-md" placeholder="Describe la tarea o información..."></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="px-6 py-4 border-t bg-gray-50 flex justify-end space-x-3">
+                    <button onclick="closeAddNoteModal()" class="px-4 py-2 text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300">
+                        Cancelar
+                    </button>
+                    <button onclick="saveNote()" class="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700">
+                        Guardar Nota
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Edit Plan -->
+    <div id="editPlanModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full">
+                <div class="px-6 py-4 border-b">
+                    <h3 class="text-lg font-semibold text-gray-900">Editar Plan de Estudios</h3>
+                    <p class="text-sm text-gray-600 mt-1">Pega tu lista de materias en el formato: Materia | Maestro | Horario | Modalidad | Notas (opcional)</p>
+                </div>
+                <div class="px-6 py-4">
+                    <textarea 
+                        id="planTextInput" 
+                        class="w-full h-64 p-3 border border-gray-300 rounded-md resize-none text-sm font-mono"
+                        placeholder="Ejemplo:&#10;TEORÍA Y SISTEMAS ORGANIZACIONALES | Ing. Edmundo Guajardo Garza | Lunes (Del 8 de septiembre al 8 de diciembre) | Presencial | Excelente profesor&#10;BIOÉTICA Y DERECHO | Dr. Pedro Quezada Bautista | Miércoles (Del 10 de septiembre al 10 de diciembre) | Presencial"
+                    ></textarea>
+                </div>
+                <div class="px-6 py-4 border-t bg-gray-50 flex justify-end space-x-3">
+                    <button onclick="closeEditPlanModal()" class="px-4 py-2 text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300">
+                        Cancelar
+                    </button>
+                    <button onclick="savePlanFromModal()" class="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700">
+                        Guardar Plan
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Add Birthday -->
+    <div id="addBirthdayModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg shadow-xl max-w-lg w-full">
+                <div class="px-6 py-4 border-b">
+                    <h3 class="text-lg font-semibold text-gray-900">Agregar Cumpleaños</h3>
+                </div>
+                <div class="px-6 py-4">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Nombre completo</label>
+                            <input type="text" id="birthdayName" class="w-full p-3 border border-gray-300 rounded-md" placeholder="Nombre y apellidos del compañero">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Fecha de nacimiento</label>
+                            <input type="date" id="birthdayDate" class="w-full p-3 border border-gray-300 rounded-md">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">WhatsApp (opcional)</label>
+                            <input type="tel" id="birthdayWhatsapp" class="w-full p-3 border border-gray-300 rounded-md" placeholder="+52 123 456 7890">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Notas (opcional)</label>
+                            <input type="text" id="birthdayNotes" class="w-full p-3 border border-gray-300 rounded-md" placeholder="Ej: Le gustan los chocolates, aficionado al fútbol">
+                        </div>
+                    </div>
+                </div>
+                <div class="px-6 py-4 border-t bg-gray-50 flex justify-end space-x-3">
+                    <button onclick="closeAddBirthdayModal()" class="px-4 py-2 text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300">
+                        Cancelar
+                    </button>
+                    <button onclick="saveBirthday()" class="px-4 py-2 text-white bg-purple-600 rounded-md hover:bg-purple-700">
+                        Agregar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Add Resource -->
+    <div id="addResourceModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg shadow-xl max-w-lg w-full">
+                <div class="px-6 py-4 border-b">
+                    <h3 class="text-lg font-semibold text-gray-900">Agregar Recurso</h3>
+                </div>
+                <div class="px-6 py-4">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Tu nombre</label>
+                            <input type="text" id="resourceAuthor" class="w-full p-3 border border-gray-300 rounded-md" placeholder="Quien comparte el recurso">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Materia</label>
+                            <select id="resourceSubject" class="w-full p-3 border border-gray-300 rounded-md">
+                                <option value="">Selecciona una materia</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Tipo de recurso</label>
+                            <select id="resourceType" class="w-full p-3 border border-gray-300 rounded-md">
+                                <option value="documento">📄 Documento</option>
+                                <option value="video">🎥 Video</option>
+                                <option value="enlace">🔗 Enlace Web</option>
+                                <option value="presentacion">📊 Presentación</option>
+                                <option value="libro">📚 Libro/Paper</option>
+                                <option value="ejercicio">✏️ Ejercicios</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Título</label>
+                            <input type="text" id="resourceTitle" class="w-full p-3 border border-gray-300 rounded-md" placeholder="Título del recurso">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">URL/Enlace</label>
+                            <input type="url" id="resourceUrl" class="w-full p-3 border border-gray-300 rounded-md" placeholder="https://...">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Descripción</label>
+                            <textarea id="resourceDescription" rows="3" class="w-full p-3 border border-gray-300 rounded-md" placeholder="Breve descripción del recurso..."></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="px-6 py-4 border-t bg-gray-50 flex justify-end space-x-3">
+                    <button onclick="closeAddResourceModal()" class="px-4 py-2 text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300">
+                        Cancelar
+                    </button>
+                    <button onclick="saveResource()" class="px-4 py-2 text-white bg-green-600 rounded-md hover:bg-green-700">
+                        Guardar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Add Event -->
+    <div id="addEventModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg shadow-xl max-w-lg w-full">
+                <div class="px-6 py-4 border-b">
+                    <h3 class="text-lg font-semibold text-gray-900">Agregar Evento</h3>
+                </div>
+                <div class="px-6 py-4">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Título del evento</label>
+                            <input type="text" id="eventTitle" class="w-full p-3 border border-gray-300 rounded-md" placeholder="Ej: Examen Final">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Materia</label>
+                            <select id="eventSubject" class="w-full p-3 border border-gray-300 rounded-md">
+                                <option value="">Selecciona una materia</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Tipo</label>
+                            <select id="eventType" class="w-full p-3 border border-gray-300 rounded-md">
+                                <option value="clase">Clase</option>
+                                <option value="examen">Examen</option>
+                                <option value="entrega">Entrega</option>
+                                <option value="presentacion">Presentación</option>
+                                <option value="reunion">Reunión Grupo</option>
+                                <option value="otro">Otro</option>
+                            </select>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Fecha</label>
+                                <input type="date" id="eventDate" class="w-full p-3 border border-gray-300 rounded-md">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Hora</label>
+                                <input type="time" id="eventTime" class="w-full p-3 border border-gray-300 rounded-md">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Descripción (opcional)</label>
+                            <textarea id="eventDescription" rows="3" class="w-full p-3 border border-gray-300 rounded-md" placeholder="Detalles adicionales..."></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="px-6 py-4 border-t bg-gray-50 flex justify-end space-x-3">
+                    <button onclick="closeAddEventModal()" class="px-4 py-2 text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300">
+                        Cancelar
+                    </button>
+                    <button onclick="saveEvent()" class="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700">
+                        Guardar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentPage = 'dashboard';
+        let studyPlanData = [];
+        let filteredPlanData = [];
+        let groupNotes = [];
+        let filteredNotes = [];
+        let currentNoteFilter = 'all';
+        let birthdays = [];
+        let resources = [];
+        let filteredResources = [];
+        let currentResourceFilter = 'all';
+        let events = [];
+        let currentDate = new Date();
+        let currentViewMode = 'month';
+
+        // Default study plan data
+        const defaultPlanData = [
+            {
+                materia: "TEORÍA Y SISTEMAS ORGANIZACIONALES",
+                maestro: "Ing. Edmundo Guajardo Garza",
+                horario: "Lunes (Del 8 de septiembre al 8 de diciembre)",
+                modalidad: "Presencial",
+                notas: ""
+            },
+            {
+                materia: "BIOÉTICA Y DERECHO",
+                maestro: "Dr. Pedro Quezada Bautista",
+                horario: "Miércoles (Del 10 de septiembre al 10 de diciembre)",
+                modalidad: "Presencial",
+                notas: ""
+            },
+            {
+                materia: "ADMINISTRACIÓN Y DESARROLLO DE PERSONAL PÚBLICO",
+                maestro: "Mtro. Gabino Medrano Rodríguez",
+                horario: "Viernes (Del 12 de septiembre al 12 de diciembre)",
+                modalidad: "Presencial",
+                notas: ""
+            }
+        ];
+
+        // Navigation functions
+        window.changePage = function(page) {
+            currentPage = page;
+            updateNavigation();
+            renderPage();
+        };
+
+        // AI Assistant Functions
+        let chatHistory = [];
+
+        window.handleChatKeyPress = function(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        };
+
+        window.sendMessage = function() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (message) {
+                addMessage(message, 'user');
+                input.value = '';
+                
+                // Show typing indicator
+                showTypingIndicator();
+                
+                // Generate AI response after a short delay
+                setTimeout(() => {
+                    hideTypingIndicator();
+                    const response = generateAIResponse(message);
+                    addMessage(response, 'ai');
+                }, 1000 + Math.random() * 1500);
+            }
+        };
+
+        window.askAI = function(question) {
+            const input = document.getElementById('chatInput');
+            input.value = question;
+            sendMessage();
+        };
+
+        function addMessage(message, sender) {
+            const messagesContainer = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'flex items-start space-x-3';
+            
+            if (sender === 'user') {
+                messageDiv.innerHTML = `
+                    <div class="flex items-start space-x-3 flex-row-reverse">
+                        <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
+                            <iconify-icon icon="solar:user-bold" class="text-white text-sm"></iconify-icon>
+                        </div>
+                        <div class="bg-blue-600 text-white rounded-lg p-3 max-w-xs ml-auto">
+                            <p class="text-sm">${message}</p>
+                        </div>
+                    </div>
+                `;
+            } else {
+                messageDiv.innerHTML = `
+                    <div class="w-8 h-8 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
+                        <iconify-icon icon="solar:cpu-bolt-bold" class="text-white text-sm"></iconify-icon>
+                    </div>
+                    <div class="bg-gray-100 rounded-lg p-3 max-w-sm">
+                        <p class="text-sm text-gray-800">${message}</p>
+                    </div>
+                `;
+            }
+            
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            
+            // Store in chat history
+            chatHistory.push({ message, sender, timestamp: new Date() });
+        }
+
+        function showTypingIndicator() {
+            const messagesContainer = document.getElementById('chatMessages');
+            const typingDiv = document.createElement('div');
+            typingDiv.id = 'typing-indicator';
+            typingDiv.className = 'flex items-start space-x-3';
+            typingDiv.innerHTML = `
+                <div class="w-8 h-8 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
+                    <iconify-icon icon="solar:cpu-bolt-bold" class="text-white text-sm"></iconify-icon>
+                </div>
+                <div class="bg-gray-100 rounded-lg p-3">
+                    <div class="flex space-x-1">
+                        <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                        <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.1s;"></div>
+                        <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s;"></div>
+                    </div>
+                </div>
+            `;
+            messagesContainer.appendChild(typingDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function hideTypingIndicator() {
+            const typingIndicator = document.getElementById('typing-indicator');
+            if (typingIndicator) {
+                typingIndicator.remove();
+            }
+        }
+
+        function generateAIResponse(userMessage) {
+            const message = userMessage.toLowerCase();
+            
+            // Academic progress analysis
+            if (message.includes('progreso') || message.includes('resumen')) {
+                return generateProgressSummary();
+            }
+            
+            // Study techniques
+            if (message.includes('estudio') || message.includes('estudiar') || message.includes('técnica')) {
+                return getStudyTips();
+            }
+            
+            // Task organization
+            if (message.includes('tarea') || message.includes('organiz') || message.includes('pendiente')) {
+                return analyzeTasksAndSuggest();
+            }
+            
+            // Stress management
+            if (message.includes('estrés') || message.includes('ansiedad') || message.includes('presión')) {
+                return getStressManagementTips();
+            }
+            
+            // Schedule help
+            if (message.includes('horario') || message.includes('tiempo') || message.includes('planificar')) {
+                return getSchedulingAdvice();
+            }
+            
+            // Subject-specific help
+            if (message.includes('bioética') || message.includes('teoría') || message.includes('administración')) {
+                return getSubjectSpecificHelp(message);
+            }
+            
+            // Exam preparation
+            if (message.includes('examen') || message.includes('evaluación') || message.includes('parcial')) {
+                return getExamPrepTips();
+            }
+            
+            // Default helpful responses
+            const defaultResponses = [
+                "Basándome en tu información académica, te recomiendo enfocarte en crear un horario de estudio consistente. ¿Te gustaría que te ayude a organizar tus materias por prioridad?",
+                "Veo que estás en el tetramestre 3 de 6. Este es un momento crucial para consolidar buenos hábitos de estudio. ¿Hay alguna materia específica que te esté causando dificultades?",
+                "Para maximizar tu rendimiento académico, considera implementar la técnica Pomodoro: 25 minutos de estudio concentrado seguidos de 5 minutos de descanso. ¿Has probado alguna técnica de gestión del tiempo?",
+                "Tu progreso del 50% en el programa es sólido. Te sugiero revisar regularmente tus notas grupales para mantenerte al día con las tareas colaborativas. ¿Necesitas ayuda con algún tema específico?"
+            ];
+            
+            return defaultResponses[Math.floor(Math.random() * defaultResponses.length)];
+        }
+
+        function generateProgressSummary() {
+            const totalSubjects = studyPlanData.length;
+            const totalNotes = groupNotes.length;
+            const pendingTasks = groupNotes.filter(n => n.type === 'tarea').length;
+            const upcomingEvents = events.filter(e => new Date(e.date) > new Date()).length;
+            
+            return `📊 **Resumen de tu progreso académico:**
+
+🎓 **Materias activas:** ${totalSubjects}
+📝 **Notas grupales:** ${totalNotes}
+⏳ **Tareas pendientes:** ${pendingTasks}
+📅 **Eventos próximos:** ${upcomingEvents}
+🎯 **Progreso general:** 50% (Tetramestre 3/6)
+
+**Recomendación:** ${pendingTasks > 0 ? 'Enfócate en completar las tareas pendientes para mantener tu ritmo de estudio.' : 'Excelente trabajo manteniendo tus tareas al día. Considera revisar material de materias pasadas para reforzar conocimientos.'}`;
+        }
+
+        function getStudyTips() {
+            const tips = [
+                "🧠 **Técnicas de estudio recomendadas:**\n\n1. **Método Feynman:** Explica conceptos complejos con palabras simples\n2. **Mapas mentales:** Conecta visualmente las ideas principales\n3. **Repaso espaciado:** Revisa material en intervalos crecientes\n4. **Estudio activo:** Haz preguntas y busca ejemplos prácticos\n\n¿Te gustaría que profundice en alguna de estas técnicas?",
+                "📚 **Para optimizar tu estudio:**\n\n• Establece objetivos específicos para cada sesión\n• Utiliza el ambiente de estudio más efectivo para ti\n• Alterna entre diferentes tipos de material\n• Toma descansos regulares para mantener la concentración\n\n¿Hay alguna materia específica que requiere una estrategia particular?",
+                "⚡ **Técnicas de concentración:**\n\n1. **Técnica Pomodoro:** 25 min estudio + 5 min descanso\n2. **Elimina distracciones:** Teléfono en modo silencioso\n3. **Ambiente ordenado:** Espacio limpio = mente clara\n4. **Hidratación:** Mantén agua cerca durante el estudio\n\n¿Qué obstáculos encuentras más frecuentemente al estudiar?"
+            ];
+            return tips[Math.floor(Math.random() * tips.length)];
+        }
+
+        function analyzeTasksAndSuggest() {
+            const pendingTasks = groupNotes.filter(n => n.type === 'tarea');
+            
+            if (pendingTasks.length === 0) {
+                return "¡Excelente! No tienes tareas pendientes registradas. Te recomiendo:\n\n• Revisar tus notas grupales regularmente\n• Adelantarte en lecturas opcionales\n• Preparar materiales para próximos exámenes\n• Colaborar con compañeros en proyectos futuros";
+            }
+            
+            const tasksBySubject = {};
+            pendingTasks.forEach(task => {
+                if (!tasksBySubject[task.subject]) {
+                    tasksBySubject[task.subject] = [];
+                }
+                tasksBySubject[task.subject].push(task);
+            });
+            
+            let response = `📋 **Análisis de tareas pendientes (${pendingTasks.length}):**\n\n`;
+            
+            Object.keys(tasksBySubject).forEach(subject => {
+                response += `**${subject}:** ${tasksBySubject[subject].length} tarea(s)\n`;
+            });
+            
+            response += `\n💡 **Recomendaciones:**\n• Prioriza tareas con fechas límite más cercanas\n• Dedica bloques de 30-45 minutos por tarea\n• Comunícate con tus compañeros para trabajo colaborativo`;
+            
+            return response;
+        }
+
+        function getStressManagementTips() {
+            const tips = [
+                "🧘 **Manejo del estrés académico:**\n\n• **Respiración profunda:** 4 segundos inhalar, 7 mantener, 8 exhalar\n• **Ejercicio regular:** Incluso 10 minutos de caminata ayudan\n• **Sueño adecuado:** 7-8 horas para óptimo rendimiento\n• **Perspectiva:** Los errores son oportunidades de aprendizaje\n\n¿Has identificado qué situaciones académicas te generan más estrés?",
+                "💚 **Estrategias de bienestar:**\n\n1. Divide tareas grandes en pasos pequeños\n2. Celebra logros pequeños y grandes\n3. Mantén contacto con familia y amigos\n4. Practica mindfulness durante el estudio\n\n¿Te gustaría técnicas específicas de relajación?",
+                "⚖️ **Balance académico-personal:**\n\n• Establece horarios fijos de estudio y descanso\n• Incluye actividades que disfrutes en tu rutina\n• No te compares constantemente con otros\n• Busca apoyo cuando lo necesites\n\nRecuerda: Tu bienestar es tan importante como tus calificaciones."
+            ];
+            return tips[Math.floor(Math.random() * tips.length)];
+        }
+
+        function getSchedulingAdvice() {
+            const subjectCount = studyPlanData.length;
+            return `⏰ **Optimización de horarios:**\n\nCon ${subjectCount} materias activas, te sugiero:\n\n📅 **Estructura semanal:**\n• Lunes-Miércoles: Materias teóricas pesadas\n• Jueves-Viernes: Proyectos y tareas prácticas\n• Fin de semana: Repaso y preparación\n\n🎯 **Bloques de tiempo:**\n• 90 minutos máximo por sesión de estudio\n• 15 minutos de descanso entre materias\n• Buffer de 30 min para imprevistos\n\n¿Te gustaría ayuda para organizar alguna materia específica?`;
+        }
+
+        function getSubjectSpecificHelp(message) {
+            if (message.includes('bioética')) {
+                return "🏥 **Bioética y Derecho:** Materia compleja que requiere análisis crítico.\n\n📖 **Estrategias:**\n• Estudia casos prácticos reales\n• Conecta principios éticos con situaciones médicas\n• Participa activamente en debates grupales\n• Revisa jurisprudencia relevante\n\n¿Hay algún tema específico de bioética que te resulte desafiante?";
+            }
+            
+            if (message.includes('teoría') || message.includes('organizacional')) {
+                return "🏢 **Teoría y Sistemas Organizacionales:** Materia fundamental para entender estructuras.\n\n📊 **Enfoques de estudio:**\n• Analiza organizaciones reales como ejemplos\n• Crea diagramas de sistemas organizacionales\n• Relaciona teorías con experiencias personales\n• Estudia casos de éxito y fracaso empresarial\n\n¿Te interesa algún modelo organizacional específico?";
+            }
+            
+            return "📚 Para un estudio efectivo de tus materias, te recomiendo crear conexiones entre conceptos y aplicaciones prácticas. ¿Hay algún tema específico en el que necesites apoyo?";
+        }
+
+        function getExamPrepTips() {
+            return `📝 **Preparación para exámenes:**\n\n🎯 **3 semanas antes:**\n• Revisa todo el material cubierto\n• Identifica temas más desafiantes\n• Crea cronograma de repaso\n\n📋 **1 semana antes:**\n• Practica con exámenes anteriores\n• Forma grupos de estudio\n• Resuelve dudas con profesores\n\n⚡ **Día del examen:**\n• Desayuna bien y llega temprano\n• Lee todas las preguntas antes de empezar\n• Gestiona tu tiempo efectivamente\n\n¿Tienes algún examen próximo programado?`;
+        }
+
+        // Calendar Functions
+        function loadEvents() {
+            const saved = localStorage.getItem('eventsData_t3');
+            if (saved) {
+                try {
+                    events = JSON.parse(saved);
+                } catch (e) {
+                    events = [];
+                }
+            } else {
+                events = [];
+            }
+        }
+
+        function saveEvents() {
+            localStorage.setItem('eventsData_t3', JSON.stringify(events));
+        }
+
+        function getEventColor(type) {
+            const colors = {
+                'clase': 'bg-blue-100 text-blue-800',
+                'examen': 'bg-red-100 text-red-800',
+                'entrega': 'bg-yellow-100 text-yellow-800',
+                'presentacion': 'bg-green-100 text-green-800',
+                'reunion': 'bg-purple-100 text-purple-800',
+                'otro': 'bg-gray-100 text-gray-800'
+            };
+            return colors[type] || colors['otro'];
+        }
+
+        function getEventColorDot(type) {
+            const colors = {
+                'clase': 'bg-blue-500',
+                'examen': 'bg-red-500',
+                'entrega': 'bg-yellow-500',
+                'presentacion': 'bg-green-500',
+                'reunion': 'bg-purple-500',
+                'otro': 'bg-gray-500'
+            };
+            return colors[type] || colors['otro'];
+        }
+
+        window.changeMonth = function(direction) {
+            currentDate.setMonth(currentDate.getMonth() + direction);
+            if (currentPage === 'calendar') {
+                renderPage();
+            }
+        };
+
+        window.goToToday = function() {
+            currentDate = new Date();
+            if (currentPage === 'calendar') {
+                renderPage();
+            }
+        };
+
+        window.showEventDetails = function(eventId) {
+            const event = events.find(e => e.id === eventId);
+            if (event) {
+                const eventDate = new Date(event.date);
+                const formattedDate = eventDate.toLocaleDateString('es-ES', { 
+                    weekday: 'long', 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                });
+                const formattedTime = event.time ? ` a las ${event.time}` : '';
+                
+                alert(`${event.title}\n\nMateria: ${event.subject}\nFecha: ${formattedDate}${formattedTime}\nTipo: ${event.type}\n\nDescripción: ${event.description || 'Sin descripción'}`);
+            }
+        };
+
+        window.openAddEventModal = function() {
+            const modal = document.getElementById('addEventModal');
+            const subjectSelect = document.getElementById('eventSubject');
+            
+            // Populate subjects dropdown
+            subjectSelect.innerHTML = '<option value="">Selecciona una materia</option>';
+            studyPlanData.forEach(subject => {
+                subjectSelect.innerHTML += `<option value="${subject.materia}">${subject.materia}</option>`;
+            });
+            
+            // Reset form
+            document.getElementById('eventTitle').value = '';
+            document.getElementById('eventDate').value = '';
+            document.getElementById('eventTime').value = '';
+            document.getElementById('eventDescription').value = '';
+            document.getElementById('eventType').value = 'clase';
+            
+            modal.classList.remove('hidden');
+        };
+
+        window.closeAddEventModal = function() {
+            document.getElementById('addEventModal').classList.add('hidden');
+        };
+
+        window.saveEvent = function() {
+            const title = document.getElementById('eventTitle').value.trim();
+            const subject = document.getElementById('eventSubject').value;
+            const date = document.getElementById('eventDate').value;
+            const time = document.getElementById('eventTime').value;
+            const description = document.getElementById('eventDescription').value.trim();
+            const type = document.getElementById('eventType').value;
+            
+            if (!title || !subject || !date) {
+                alert('Por favor, completa todos los campos obligatorios (título, materia y fecha).');
+                return;
+            }
+            
+            // Validate date is not in the past
+            const eventDate = new Date(date);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            if (eventDate < today) {
+                if (!confirm('La fecha seleccionada ya pasó. ¿Quieres agregar el evento de todas formas?')) {
+                    return;
+                }
+            }
+            
+            const newEvent = {
+                id: Date.now(),
+                title: title,
+                subject: subject,
+                date: date,
+                time: time || null,
+                description: description || null,
+                type: type,
+                timestamp: new Date().toISOString()
+            };
+            
+            events.push(newEvent);
+            saveEvents();
+            closeAddEventModal();
+            
+            if (currentPage === 'calendar') {
+                renderPage();
+            }
+        };
+
+        window.deleteEvent = function(eventId) {
+            if (confirm('¿Estás seguro de que quieres eliminar este evento?')) {
+                events = events.filter(event => event.id !== eventId);
+                saveEvents();
+                if (currentPage === 'calendar') {
+                    renderPage();
+                }
+            }
+        };
+
+        window.toggleMobileMenu = function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        };
+
+        function updateNavigation() {
+            // Update desktop navigation
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.className = 'nav-item flex items-center px-3 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors';
+            });
+            
+            const activeNav = document.getElementById(`nav-${currentPage}`);
+            if (activeNav) {
+                activeNav.className = 'nav-item flex items-center px-3 py-2 text-sm font-medium text-blue-600 border-b-2 border-blue-600';
+            }
+
+            // Update mobile navigation
+            document.querySelectorAll('.mobile-nav-item').forEach(item => {
+                item.className = 'mobile-nav-item text-left p-3 rounded-md text-gray-700 hover:bg-gray-100';
+            });
+        }
+
+        function renderPage() {
+            const content = document.getElementById('content');
+            
+            switch(currentPage) {
+                case 'dashboard':
+                    content.innerHTML = renderDashboard();
+                    break;
+                case 'study-plan':
+                    content.innerHTML = renderStudyPlan();
+                    break;
+                case 'notes':
+                    content.innerHTML = renderGroupNotes();
+                    break;
+                case 'birthdays':
+                    content.innerHTML = renderBirthdays();
+                    break;
+                case 'library':
+                    content.innerHTML = renderLibrary();
+                    break;
+                case 'calendar':
+                    content.innerHTML = renderCalendar();
+                    break;
+                default:
+                    content.innerHTML = renderPlaceholderPage(currentPage);
+                    break;
+            }
+        }
+
+        function renderDashboard() {
+            return `
+                <div class="space-y-8">
+                    <!-- Welcome Section -->
+                    <div class="text-center">
+                        <h2 class="text-3xl font-bold text-gray-900 mb-2">¡Bienvenido!</h2>
+                        <p class="text-lg text-gray-600">6ª Generación - Tetramestre 3 de 6</p>
+                        <div class="mt-4">
+                            <div class="bg-blue-50 inline-block px-4 py-2 rounded-full">
+                                <span class="text-blue-700 font-medium">Progreso: 50% completado</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow cursor-pointer" onclick="changePage('notes')">
+                            <div class="flex items-center mb-4">
+                                <div class="bg-orange-100 p-3 rounded-lg mr-4">
+                                    <iconify-icon icon="solar:notes-bold" class="text-2xl text-orange-600"></iconify-icon>
+                                </div>
+                                <h3 class="text-xl font-semibold text-gray-900">Notas Grupo</h3>
+                            </div>
+                            <p class="text-gray-600 mb-4">Tareas y notas colaborativas para los 16 integrantes</p>
+                            <div class="flex items-center text-orange-600">
+                                <span class="text-sm font-medium">Ver notas</span>
+                                <iconify-icon icon="solar:arrow-right-bold" class="ml-2"></iconify-icon>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow cursor-pointer" onclick="changePage('calendar')">
+                            <div class="flex items-center mb-4">
+                                <div class="bg-blue-100 p-3 rounded-lg mr-4">
+                                    <iconify-icon icon="solar:calendar-bold" class="text-2xl text-blue-600"></iconify-icon>
+                                </div>
+                                <h3 class="text-xl font-semibold text-gray-900">Calendario</h3>
+                            </div>
+                            <p class="text-gray-600 mb-4">Horarios, clases y eventos importantes del grupo</p>
+                            <div class="flex items-center text-blue-600">
+                                <span class="text-sm font-medium">Ver calendario</span>
+                                <iconify-icon icon="solar:arrow-right-bold" class="ml-2"></iconify-icon>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow cursor-pointer" onclick="changePage('birthdays')">
+                            <div class="flex items-center mb-4">
+                                <div class="bg-purple-100 p-3 rounded-lg mr-4">
+                                    <iconify-icon icon="solar:calendar-mark-bold" class="text-2xl text-purple-600"></iconify-icon>
+                                </div>
+                                <h3 class="text-xl font-semibold text-gray-900">Cumpleaños</h3>
+                            </div>
+                            <p class="text-gray-600 mb-4">Lista de cumpleaños de todos los compañeros del grupo</p>
+                            <div class="flex items-center text-purple-600">
+                                <span class="text-sm font-medium">Ver cumpleaños</span>
+                                <iconify-icon icon="solar:arrow-right-bold" class="ml-2"></iconify-icon>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow cursor-pointer" onclick="changePage('library')">
+                            <div class="flex items-center mb-4">
+                                <div class="bg-green-100 p-3 rounded-lg mr-4">
+                                    <iconify-icon icon="solar:library-bold" class="text-2xl text-green-600"></iconify-icon>
+                                </div>
+                                <h3 class="text-xl font-semibold text-gray-900">Biblioteca</h3>
+                            </div>
+                            <p class="text-gray-600 mb-4">Recursos compartidos y material de estudio</p>
+                            <div class="flex items-center text-green-600">
+                                <span class="text-sm font-medium">Ver recursos</span>
+                                <iconify-icon icon="solar:arrow-right-bold" class="ml-2"></iconify-icon>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow cursor-pointer" onclick="changePage('study-plan')">
+                            <div class="flex items-center mb-4">
+                                <div class="bg-indigo-100 p-3 rounded-lg mr-4">
+                                    <iconify-icon icon="solar:book-2-bold" class="text-2xl text-indigo-600"></iconify-icon>
+                                </div>
+                                <h3 class="text-xl font-semibold text-gray-900">Plan de Estudios</h3>
+                            </div>
+                            <p class="text-gray-600 mb-4">Consulta tus materias, maestros y horarios</p>
+                            <div class="flex items-center text-indigo-600">
+                                <span class="text-sm font-medium">Ver plan</span>
+                                <iconify-icon icon="solar:arrow-right-bold" class="ml-2"></iconify-icon>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow cursor-pointer" onclick="changePage('ai-assistant')">
+                            <div class="flex items-center mb-4">
+                                <div class="bg-red-100 p-3 rounded-lg mr-4">
+                                    <iconify-icon icon="solar:cpu-bolt-bold" class="text-2xl text-red-600"></iconify-icon>
+                                </div>
+                                <h3 class="text-xl font-semibold text-gray-900">Asistente AI</h3>
+                            </div>
+                            <p class="text-gray-600 mb-4">Obtén ayuda inteligente con tus estudios</p>
+                            <div class="flex items-center text-red-600">
+                                <span class="text-sm font-medium">Acceder</span>
+                                <iconify-icon icon="solar:arrow-right-bold" class="ml-2"></iconify-icon>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Progress Bar -->
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Progreso Académico</h3>
+                        <div class="space-y-3">
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-600">Tetramestre 3 de 6</span>
+                                <span class="font-medium text-gray-900">50%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-blue-600 h-2 rounded-full" style="width: 50%"></div>
+                            </div>
+                            <div class="grid grid-cols-6 gap-2 mt-4">
+                                <div class="text-center">
+                                    <div class="w-8 h-8 bg-green-500 rounded-full mx-auto mb-1 flex items-center justify-center">
+                                        <iconify-icon icon="solar:check-bold" class="text-white text-sm"></iconify-icon>
+                                    </div>
+                                    <div class="text-xs text-gray-600">T1</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="w-8 h-8 bg-green-500 rounded-full mx-auto mb-1 flex items-center justify-center">
+                                        <iconify-icon icon="solar:check-bold" class="text-white text-sm"></iconify-icon>
+                                    </div>
+                                    <div class="text-xs text-gray-600">T2</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="w-8 h-8 bg-blue-500 rounded-full mx-auto mb-1 flex items-center justify-center">
+                                        <div class="w-2 h-2 bg-white rounded-full"></div>
+                                    </div>
+                                    <div class="text-xs text-blue-600 font-medium">T3</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="w-8 h-8 bg-gray-300 rounded-full mx-auto mb-1"></div>
+                                    <div class="text-xs text-gray-400">T4</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="w-8 h-8 bg-gray-300 rounded-full mx-auto mb-1"></div>
+                                    <div class="text-xs text-gray-400">T5</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="w-8 h-8 bg-gray-300 rounded-full mx-auto mb-1"></div>
+                                    <div class="text-xs text-gray-400">T6</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stats Overview -->
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Resumen</h3>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-blue-600">${studyPlanData.length}</div>
+                                <div class="text-sm text-gray-600">Materias</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-orange-600">${groupNotes.filter(n => n.type === 'tarea').length}</div>
+                                <div class="text-sm text-gray-600">Tareas Pendientes</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-green-600">${resources.length}</div>
+                                <div class="text-sm text-gray-600">Recursos</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-purple-600">${birthdays.length}</div>
+                                <div class="text-sm text-gray-600">Cumpleaños</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderPlaceholderPage(pageName) {
+            return `
+                <div class="max-w-2xl mx-auto text-center">
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-12">
+                        <div class="mb-6">
+                            <iconify-icon icon="solar:document-bold" class="text-6xl text-gray-600"></iconify-icon>
+                        </div>
+                        <h2 class="text-2xl font-bold text-gray-900 mb-4">${pageName}</h2>
+                        <p class="text-lg text-gray-600 mb-6">
+                            Funcionalidad en desarrollo
+                        </p>
+                        <p class="text-sm text-gray-500">
+                            Esta sección estará disponible pronto con más funcionalidades para tu experiencia académica.
+                        </p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderCalendar() {
+            const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+                               'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+            const dayNames = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+            
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+            
+            // Get first day of month and number of days
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            const firstDayWeek = firstDay.getDay();
+            const daysInMonth = lastDay.getDate();
+            
+            // Filter events for current month
+            const monthEvents = events.filter(event => {
+                const eventDate = new Date(event.date);
+                return eventDate.getMonth() === month && eventDate.getFullYear() === year;
+            });
+            
+            // Group events by date
+            const eventsByDate = {};
+            monthEvents.forEach(event => {
+                const day = new Date(event.date).getDate();
+                if (!eventsByDate[day]) {
+                    eventsByDate[day] = [];
+                }
+                eventsByDate[day].push(event);
+            });
+
+            // Generate calendar grid
+            let calendarGrid = '';
+            let dayCount = 1;
+            
+            for (let week = 0; week < 6; week++) {
+                calendarGrid += '<tr>';
+                for (let day = 0; day < 7; day++) {
+                    if (week === 0 && day < firstDayWeek) {
+                        calendarGrid += '<td class="p-2 h-24 border border-gray-200 bg-gray-50"></td>';
+                    } else if (dayCount <= daysInMonth) {
+                        const isToday = new Date().toDateString() === new Date(year, month, dayCount).toDateString();
+                        const hasEvents = eventsByDate[dayCount];
+                        
+                        calendarGrid += `
+                            <td class="p-2 h-24 border border-gray-200 ${isToday ? 'bg-blue-50' : 'bg-white'} align-top">
+                                <div class="text-sm font-medium ${isToday ? 'text-blue-600' : 'text-gray-900'}">${dayCount}</div>
+                                ${hasEvents ? `
+                                    <div class="space-y-1 mt-1">
+                                        ${eventsByDate[dayCount].slice(0, 2).map(event => `
+                                            <div class="text-xs px-1 py-0.5 rounded ${getEventColor(event.type)} cursor-pointer" 
+                                                 onclick="showEventDetails(${event.id})" 
+                                                 title="${event.title}">
+                                                ${event.title.substring(0, 12)}${event.title.length > 12 ? '...' : ''}
+                                            </div>
+                                        `).join('')}
+                                        ${eventsByDate[dayCount].length > 2 ? `
+                                            <div class="text-xs text-gray-500">+${eventsByDate[dayCount].length - 2} más</div>
+                                        ` : ''}
+                                    </div>
+                                ` : ''}
+                            </td>
+                        `;
+                        dayCount++;
+                    } else {
+                        calendarGrid += '<td class="p-2 h-24 border border-gray-200 bg-gray-50"></td>';
+                    }
+                }
+                calendarGrid += '</tr>';
+            }
+
+            // Upcoming events list
+            const today = new Date();
+            const upcomingEvents = events
+                .filter(event => new Date(event.date) >= today)
+                .sort((a, b) => new Date(a.date) - new Date(b.date))
+                .slice(0, 5);
+
+            const upcomingEventsHtml = upcomingEvents.map(event => {
+                const eventDate = new Date(event.date);
+                const daysUntil = Math.ceil((eventDate - today) / (1000 * 60 * 60 * 24));
+                
+                return `
+                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-3 h-3 rounded-full ${getEventColorDot(event.type)}"></div>
+                            <div>
+                                <div class="font-medium text-gray-900">${event.title}</div>
+                                <div class="text-sm text-gray-500">${event.subject}</div>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-sm font-medium text-gray-900">${eventDate.toLocaleDateString('es-ES', { month: 'short', day: 'numeric' })}</div>
+                            <div class="text-xs text-gray-500">
+                                ${daysUntil === 0 ? 'Hoy' : daysUntil === 1 ? 'Mañana' : `En ${daysUntil} días`}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            return `
+                <div class="space-y-6">
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-900">Calendario Académico</h2>
+                            <p class="text-gray-600">Eventos, exámenes y fechas importantes</p>
+                        </div>
+                        <button onclick="openAddEventModal()" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
+                            <iconify-icon icon="solar:add-circle-bold" class="mr-2"></iconify-icon>
+                            Agregar Evento
+                        </button>
+                    </div>
+
+                    <!-- Calendar Navigation -->
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center space-x-4">
+                                <button onclick="changeMonth(-1)" class="p-2 hover:bg-gray-100 rounded-md">
+                                    <iconify-icon icon="solar:chevron-left-bold" class="text-gray-600"></iconify-icon>
+                                </button>
+                                <h3 class="text-xl font-semibold text-gray-900">
+                                    ${monthNames[month]} ${year}
+                                </h3>
+                                <button onclick="changeMonth(1)" class="p-2 hover:bg-gray-100 rounded-md">
+                                    <iconify-icon icon="solar:chevron-right-bold" class="text-gray-600"></iconify-icon>
+                                </button>
+                            </div>
+                            <button onclick="goToToday()" class="px-3 py-2 text-sm bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200">
+                                Hoy
+                            </button>
+                        </div>
+
+                        <!-- Calendar Grid -->
+                        <div class="overflow-x-auto">
+                            <table class="w-full min-w-full">
+                                <thead>
+                                    <tr>
+                                        ${dayNames.map(day => `
+                                            <th class="p-2 text-center text-sm font-medium text-gray-700 bg-gray-50 border border-gray-200">
+                                                ${day}
+                                            </th>
+                                        `).join('')}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${calendarGrid}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Stats and Upcoming Events -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <!-- Stats -->
+                        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                            <h3 class="text-lg font-semibold text-gray-900 mb-4">Estadísticas</h3>
+                            <div class="space-y-3">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Total eventos</span>
+                                    <span class="font-medium">${events.length}</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Este mes</span>
+                                    <span class="font-medium">${monthEvents.length}</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Próximos 7 días</span>
+                                    <span class="font-medium">${events.filter(e => {
+                                        const days = Math.ceil((new Date(e.date) - today) / (1000 * 60 * 60 * 24));
+                                        return days >= 0 && days <= 7;
+                                    }).length}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Upcoming Events -->
+                        <div class="lg:col-span-2 bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                            <h3 class="text-lg font-semibold text-gray-900 mb-4">Próximos Eventos</h3>
+                            <div class="space-y-3">
+                                ${upcomingEventsHtml || `
+                                    <p class="text-gray-500 text-center py-4">No hay eventos próximos</p>
+                                `}
+                            </div>
+                        </div>
+                    </div>
+
+                    ${events.length === 0 ? `
+                        <div class="text-center py-12 bg-white rounded-lg shadow-sm border border-gray-200">
+                            <iconify-icon icon="solar:calendar-bold" class="text-6xl text-gray-300 mb-4"></iconify-icon>
+                            <p class="text-gray-600 mb-4">No hay eventos en tu calendario.</p>
+                            <button onclick="openAddEventModal()" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                                <iconify-icon icon="solar:add-circle-bold" class="mr-2"></iconify-icon>
+                                Agregar Primer Evento
+                            </button>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+        }
+
+        function renderStudyPlan() {
+            const searchResults = filteredPlanData.length > 0 ? filteredPlanData : studyPlanData;
+            
+            const subjectCards = searchResults.map((subject, index) => `
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                    <div class="flex items-start justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-gray-900 leading-tight">${subject.materia}</h3>
+                        <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm font-medium rounded-full whitespace-nowrap ml-2">
+                            ${subject.modalidad}
+                        </span>
+                    </div>
+                    
+                    <div class="space-y-3">
+                        <div class="flex items-center text-gray-700">
+                            <iconify-icon icon="solar:user-bold" class="mr-2 text-gray-500"></iconify-icon>
+                            <span class="text-sm">${subject.maestro}</span>
+                        </div>
+                        
+                        <div class="flex items-center text-gray-700">
+                            <iconify-icon icon="solar:calendar-bold" class="mr-2 text-gray-500"></iconify-icon>
+                            <span class="text-sm">${subject.horario}</span>
+                        </div>
+                        
+                        ${subject.notas ? `
+                            <div class="flex items-start text-gray-700 mt-3 pt-3 border-t border-gray-200">
+                                <iconify-icon icon="solar:note-bold" class="mr-2 text-gray-500 mt-0.5 flex-shrink-0"></iconify-icon>
+                                <span class="text-sm">${subject.notas}</span>
+                            </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `).join('');
+
+            return `
+                <div class="space-y-6">
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                        <h2 class="text-2xl font-bold text-gray-900">Plan de Estudios</h2>
+                        <div class="flex flex-col sm:flex-row gap-2">
+                            <button onclick="openEditPlanModal()" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors text-sm">
+                                <iconify-icon icon="solar:pen-bold" class="mr-2"></iconify-icon>
+                                Editar Plan
+                            </button>
+                            <button onclick="resetPlan()" class="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition-colors text-sm">
+                                <iconify-icon icon="solar:restart-bold" class="mr-2"></iconify-icon>
+                                Restablecer
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Search Bar -->
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+                        <div class="relative">
+                            <input 
+                                type="text" 
+                                id="searchInput" 
+                                placeholder="Buscar por materia o maestro..."
+                                class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                oninput="searchSubjects()"
+                            >
+                            <iconify-icon icon="solar:magnifer-bold" class="absolute left-3 top-2.5 text-gray-400"></iconify-icon>
+                        </div>
+                    </div>
+
+                    <!-- Stats -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                            <div class="text-2xl font-bold text-blue-700">${studyPlanData.length}</div>
+                            <div class="text-blue-600">Materias Totales</div>
+                        </div>
+                        <div class="bg-green-50 p-4 rounded-lg border border-green-200">
+                            <div class="text-2xl font-bold text-green-700">${studyPlanData.filter(s => s.modalidad === 'Presencial').length}</div>
+                            <div class="text-green-600">Presenciales</div>
+                        </div>
+                        <div class="bg-purple-50 p-4 rounded-lg border border-purple-200">
+                            <div class="text-2xl font-bold text-purple-700">${studyPlanData.filter(s => s.modalidad !== 'Presencial').length}</div>
+                            <div class="text-purple-600">Virtuales</div>
+                        </div>
+                    </div>
+
+                    <!-- Subject Cards -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        ${subjectCards}
+                    </div>
+
+                    ${searchResults.length === 0 && filteredPlanData.length === 0 && studyPlanData.length === 0 ? `
+                        <div class="text-center py-12">
+                            <iconify-icon icon="solar:book-2-bold" class="text-6xl text-gray-300 mb-4"></iconify-icon>
+                            <p class="text-gray-600">No hay materias en tu plan de estudios.</p>
+                            <button onclick="resetPlan()" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                                Cargar Plan por Defecto
+                            </button>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+        }
+
+        function renderGroupNotes() {
+            const notesBySubject = {};
+            
+            // Group notes by subject
+            const notesToShow = currentNoteFilter === 'all' ? groupNotes : filteredNotes;
+            notesToShow.forEach(note => {
+                if (!notesBySubject[note.subject]) {
+                    notesBySubject[note.subject] = [];
+                }
+                notesBySubject[note.subject].push(note);
+            });
+
+            // Sort notes by date (newest first)
+            Object.keys(notesBySubject).forEach(subject => {
+                notesBySubject[subject].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+            });
+
+            const typeIcons = {
+                'tarea': '📝',
+                'examen': '📊', 
+                'entrega': '📤',
+                'recordatorio': '⏰',
+                'info': 'ℹ️'
+            };
+
+            const typeColors = {
+                'tarea': 'bg-red-100 text-red-800',
+                'examen': 'bg-purple-100 text-purple-800',
+                'entrega': 'bg-blue-100 text-blue-800',
+                'recordatorio': 'bg-yellow-100 text-yellow-800',
+                'info': 'bg-gray-100 text-gray-800'
+            };
+
+            const subjectSections = Object.keys(notesBySubject).map(subject => {
+                const subjectNotes = notesBySubject[subject];
+                const pendingTasks = subjectNotes.filter(note => note.type === 'tarea').length;
+                
+                const notesHtml = subjectNotes.map(note => {
+                    const daysLeft = note.dueDate ? Math.ceil((new Date(note.dueDate) - new Date()) / (1000 * 60 * 60 * 24)) : null;
+                    const isOverdue = daysLeft !== null && daysLeft < 0;
+                    const isDueSoon = daysLeft !== null && daysLeft <= 3 && daysLeft >= 0;
+                    
+                    return `
+                        <div class="bg-gray-50 rounded-lg p-4 border-l-4 ${isOverdue ? 'border-red-500' : isDueSoon ? 'border-yellow-500' : 'border-gray-300'}">
+                            <div class="flex items-start justify-between mb-2">
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-lg">${typeIcons[note.type]}</span>
+                                    <span class="px-2 py-1 rounded-full text-xs font-medium ${typeColors[note.type]}">
+                                        ${note.type.toUpperCase()}
+                                    </span>
+                                    ${note.dueDate ? `
+                                        <span class="text-xs ${isOverdue ? 'text-red-600 font-medium' : isDueSoon ? 'text-yellow-600 font-medium' : 'text-gray-500'}">
+                                            ${isOverdue ? `Vencido hace ${Math.abs(daysLeft)} días` : daysLeft === 0 ? 'Vence hoy' : daysLeft === 1 ? 'Vence mañana' : `Vence en ${daysLeft} días`}
+                                        </span>
+                                    ` : ''}
+                                </div>
+                                <button onclick="deleteNote(${note.id})" class="text-gray-400 hover:text-red-500 transition-colors">
+                                    <iconify-icon icon="solar:trash-bin-minimalistic-bold" class="text-sm"></iconify-icon>
+                                </button>
+                            </div>
+                            <p class="text-gray-800 mb-2">${note.content}</p>
+                            <div class="flex items-center justify-between text-xs text-gray-500">
+                                <span>Por: <strong>${note.author}</strong></span>
+                                <span>${new Date(note.timestamp).toLocaleDateString('es-ES')} ${new Date(note.timestamp).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })}</span>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+                return `
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+                        <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
+                            <div class="flex items-center justify-between">
+                                <h3 class="text-lg font-semibold text-gray-900">${subject}</h3>
+                                <div class="flex items-center space-x-2">
+                                    ${pendingTasks > 0 ? `<span class="px-2 py-1 bg-red-100 text-red-800 rounded-full text-xs font-medium">${pendingTasks} tareas pendientes</span>` : ''}
+                                    <span class="text-sm text-gray-500">${subjectNotes.length} notas</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            ${notesHtml || '<p class="text-gray-500 text-center py-4">No hay notas para esta materia</p>'}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            return `
+                <div class="space-y-6">
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-900">Notas del Grupo</h2>
+                            <p class="text-gray-600">Bloc colaborativo para los 16 integrantes del grupo</p>
+                        </div>
+                        <button onclick="openAddNoteModal()" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
+                            <iconify-icon icon="solar:add-circle-bold" class="mr-2"></iconify-icon>
+                            Agregar Nota
+                        </button>
+                    </div>
+
+                    <!-- Filters -->
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <div class="flex-1 relative">
+                                <input 
+                                    type="text" 
+                                    id="searchNotes" 
+                                    placeholder="Buscar en las notas..."
+                                    class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                    oninput="searchNotes()"
+                                >
+                                <iconify-icon icon="solar:magnifer-bold" class="absolute left-3 top-2.5 text-gray-400"></iconify-icon>
+                            </div>
+                            <div class="flex gap-2 flex-wrap">
+                                <button onclick="filterNotes('all')" class="filter-btn ${currentNoteFilter === 'all' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-700'} px-3 py-2 rounded-md text-sm transition-colors">
+                                    Todas
+                                </button>
+                                <button onclick="filterNotes('tarea')" class="filter-btn ${currentNoteFilter === 'tarea' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-700'} px-3 py-2 rounded-md text-sm transition-colors">
+                                    📝 Tareas
+                                </button>
+                                <button onclick="filterNotes('examen')" class="filter-btn ${currentNoteFilter === 'examen' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-700'} px-3 py-2 rounded-md text-sm transition-colors">
+                                    📊 Exámenes
+                                </button>
+                                <button onclick="filterNotes('entrega')" class="filter-btn ${currentNoteFilter === 'entrega' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-700'} px-3 py-2 rounded-md text-sm transition-colors">
+                                    📤 Entregas
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stats -->
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                            <div class="text-2xl font-bold text-blue-700">${groupNotes.length}</div>
+                            <div class="text-blue-600">Notas Totales</div>
+                        </div>
+                        <div class="bg-red-50 p-4 rounded-lg border border-red-200">
+                            <div class="text-2xl font-bold text-red-700">${groupNotes.filter(n => n.type === 'tarea').length}</div>
+                            <div class="text-red-600">Tareas Pendientes</div>
+                        </div>
+                        <div class="bg-purple-50 p-4 rounded-lg border border-purple-200">
+                            <div class="text-2xl font-bold text-purple-700">${groupNotes.filter(n => n.type === 'examen').length}</div>
+                            <div class="text-purple-600">Exámenes</div>
+                        </div>
+                        <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+                            <div class="text-2xl font-bold text-yellow-700">${groupNotes.filter(n => n.dueDate && Math.ceil((new Date(n.dueDate) - new Date()) / (1000 * 60 * 60 * 24)) <= 3).length}</div>
+                            <div class="text-yellow-600">Vencen Pronto</div>
+                        </div>
+                    </div>
+
+                    <!-- Notes by Subject -->
+                    <div class="space-y-6">
+                        ${Object.keys(notesBySubject).length > 0 ? subjectSections : `
+                            <div class="text-center py-12 bg-white rounded-lg shadow-sm border border-gray-200">
+                                <iconify-icon icon="solar:notes-bold" class="text-6xl text-gray-300 mb-4"></iconify-icon>
+                                <p class="text-gray-600 mb-4">No hay notas del grupo aún.</p>
+                                <button onclick="openAddNoteModal()" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                                    <iconify-icon icon="solar:add-circle-bold" class="mr-2"></iconify-icon>
+                                    Agregar Primera Nota
+                                </button>
+                            </div>
+                        `}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderBirthdays() {
+            // Sort birthdays by next occurrence (upcoming first)
+            const today = new Date();
+            const sortedBirthdays = [...birthdays].sort((a, b) => {
+                const dateA = new Date(today.getFullYear(), new Date(a.date).getMonth(), new Date(a.date).getDate());
+                const dateB = new Date(today.getFullYear(), new Date(b.date).getMonth(), new Date(b.date).getDate());
+                
+                // If birthday already passed this year, use next year
+                if (dateA < today) dateA.setFullYear(today.getFullYear() + 1);
+                if (dateB < today) dateB.setFullYear(today.getFullYear() + 1);
+                
+                return dateA - dateB;
+            });
+
+            const birthdaysList = sortedBirthdays.map(birthday => {
+                const birthDate = new Date(birthday.date);
+                const nextBirthday = new Date(today.getFullYear(), birthDate.getMonth(), birthDate.getDate());
+                
+                if (nextBirthday < today) {
+                    nextBirthday.setFullYear(today.getFullYear() + 1);
+                }
+                
+                const daysUntil = Math.ceil((nextBirthday - today) / (1000 * 60 * 60 * 24));
+                const isToday = daysUntil === 0;
+                const isTomorrow = daysUntil === 1;
+                const isThisWeek = daysUntil <= 7;
+                
+                const monthNames = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+                const formattedDate = `${birthDate.getDate()} ${monthNames[birthDate.getMonth()]}`;
+                
+                return `
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 ${isToday ? 'border-purple-500 bg-purple-50' : isThisWeek ? 'border-yellow-300 bg-yellow-50' : ''}">
+                        <div class="flex items-start justify-between">
+                            <div class="flex-1">
+                                <div class="flex items-center mb-2">
+                                    <h3 class="text-lg font-semibold text-gray-900 mr-2">${birthday.name}</h3>
+                                    ${isToday ? '<span class="px-2 py-1 bg-purple-100 text-purple-800 rounded-full text-xs font-medium">¡Hoy es su cumpleaños! 🎉</span>' : ''}
+                                    ${isTomorrow ? '<span class="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium">Mañana</span>' : ''}
+                                    ${isThisWeek && !isToday && !isTomorrow ? '<span class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs font-medium">Esta semana</span>' : ''}
+                                </div>
+                                
+                                <div class="space-y-2">
+                                    <div class="flex items-center text-gray-700">
+                                        <iconify-icon icon="solar:calendar-bold" class="mr-2 text-purple-500"></iconify-icon>
+                                        <span class="text-sm">${formattedDate} • Cumple ${birthday.age} años</span>
+                                    </div>
+                                    
+                                    <div class="flex items-center text-gray-700">
+                                        <iconify-icon icon="solar:clock-circle-bold" class="mr-2 text-gray-500"></iconify-icon>
+                                        <span class="text-sm">
+                                            ${isToday ? 'Es hoy' : isTomorrow ? 'En 1 día' : daysUntil <= 30 ? `En ${daysUntil} días` : 'En más de un mes'}
+                                        </span>
+                                    </div>
+                                    
+                                    ${birthday.whatsapp ? `
+                                        <div class="flex items-center text-gray-700">
+                                            <iconify-icon icon="solar:phone-bold" class="mr-2 text-green-500"></iconify-icon>
+                                            <a href="https://wa.me/${birthday.whatsapp.replace(/[^0-9]/g, '')}" target="_blank" class="text-sm text-green-600 hover:text-green-700">${birthday.whatsapp}</a>
+                                        </div>
+                                    ` : ''}
+                                    
+                                    ${birthday.notes ? `
+                                        <div class="flex items-start text-gray-700 mt-3 pt-3 border-t border-gray-200">
+                                            <iconify-icon icon="solar:note-bold" class="mr-2 text-gray-500 mt-0.5 flex-shrink-0"></iconify-icon>
+                                            <span class="text-sm">${birthday.notes}</span>
+                                        </div>
+                                    ` : ''}
+                                </div>
+                            </div>
+                            <button onclick="deleteBirthday(${birthday.id})" class="text-gray-400 hover:text-red-500 transition-colors ml-2">
+                                <iconify-icon icon="solar:trash-bin-minimalistic-bold"></iconify-icon>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            return `
+                <div class="space-y-6">
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-900">Cumpleaños del Grupo</h2>
+                            <p class="text-gray-600">Lista de cumpleaños ordenada por próximo vencimiento</p>
+                        </div>
+                        <button onclick="openAddBirthdayModal()" class="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 transition-colors">
+                            <iconify-icon icon="solar:add-circle-bold" class="mr-2"></iconify-icon>
+                            Agregar Cumpleaños
+                        </button>
+                    </div>
+
+                    <!-- Stats -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div class="bg-purple-50 p-4 rounded-lg border border-purple-200">
+                            <div class="text-2xl font-bold text-purple-700">${birthdays.length}</div>
+                            <div class="text-purple-600">Total Registrados</div>
+                        </div>
+                        <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                            <div class="text-2xl font-bold text-blue-700">${birthdays.filter(b => {
+                                const today = new Date();
+                                const birthDate = new Date(b.date);
+                                const nextBirthday = new Date(today.getFullYear(), birthDate.getMonth(), birthDate.getDate());
+                                if (nextBirthday < today) nextBirthday.setFullYear(today.getFullYear() + 1);
+                                const daysUntil = Math.ceil((nextBirthday - today) / (1000 * 60 * 60 * 24));
+                                return daysUntil <= 7;
+                            }).length}</div>
+                            <div class="text-blue-600">Esta Semana</div>
+                        </div>
+                        <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+                            <div class="text-2xl font-bold text-yellow-700">${birthdays.filter(b => {
+                                const today = new Date();
+                                const birthDate = new Date(b.date);
+                                const nextBirthday = new Date(today.getFullYear(), birthDate.getMonth(), birthDate.getDate());
+                                if (nextBirthday < today) nextBirthday.setFullYear(today.getFullYear() + 1);
+                                const daysUntil = Math.ceil((nextBirthday - today) / (1000 * 60 * 60 * 24));
+                                return daysUntil <= 30;
+                            }).length}</div>
+                            <div class="text-yellow-600">Este Mes</div>
+                        </div>
+                    </div>
+
+                    <!-- Birthdays List -->
+                    <div class="space-y-4">
+                        ${birthdaysList.length > 0 ? birthdaysList : `
+                            <div class="text-center py-12 bg-white rounded-lg shadow-sm border border-gray-200">
+                                <iconify-icon icon="solar:calendar-mark-bold" class="text-6xl text-gray-300 mb-4"></iconify-icon>
+                                <p class="text-gray-600 mb-4">No hay cumpleaños registrados aún.</p>
+                                <button onclick="openAddBirthdayModal()" class="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700">
+                                    <iconify-icon icon="solar:add-circle-bold" class="mr-2"></iconify-icon>
+                                    Agregar Primer Cumpleaños
+                                </button>
+                            </div>
+                        `}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderLibrary() {
+            // Group resources by subject
+            const resourcesBySubject = {};
+            const resourcesToShow = currentResourceFilter === 'all' ? resources : filteredResources;
+            
+            resourcesToShow.forEach(resource => {
+                if (!resourcesBySubject[resource.subject]) {
+                    resourcesBySubject[resource.subject] = [];
+                }
+                resourcesBySubject[resource.subject].push(resource);
+            });
+
+            // Sort resources by timestamp (newest first)
+            Object.keys(resourcesBySubject).forEach(subject => {
+                resourcesBySubject[subject].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+            });
+
+            const typeIcons = {
+                'documento': '📄',
+                'video': '🎥',
+                'enlace': '🔗',
+                'presentacion': '📊',
+                'libro': '📚',
+                'ejercicio': '✏️'
+            };
+
+            const typeColors = {
+                'documento': 'bg-blue-100 text-blue-800',
+                'video': 'bg-red-100 text-red-800',
+                'enlace': 'bg-green-100 text-green-800',
+                'presentacion': 'bg-orange-100 text-orange-800',
+                'libro': 'bg-purple-100 text-purple-800',
+                'ejercicio': 'bg-yellow-100 text-yellow-800'
+            };
+
+            const subjectSections = Object.keys(resourcesBySubject).map(subject => {
+                const subjectResources = resourcesBySubject[subject];
+                
+                const resourcesHtml = subjectResources.map(resource => {
+                    return `
+                        <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                            <div class="flex items-start justify-between mb-3">
+                                <div class="flex items-center space-x-3">
+                                    <span class="text-2xl">${typeIcons[resource.type]}</span>
+                                    <div>
+                                        <h4 class="text-lg font-semibold text-gray-900">${resource.title}</h4>
+                                        <div class="flex items-center space-x-2 mt-1">
+                                            <span class="px-2 py-1 rounded-full text-xs font-medium ${typeColors[resource.type]}">
+                                                ${resource.type.toUpperCase()}
+                                            </span>
+                                            <span class="text-sm text-gray-500">por ${resource.author}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button onclick="deleteResource(${resource.id})" class="text-gray-400 hover:text-red-500 transition-colors">
+                                    <iconify-icon icon="solar:trash-bin-minimalistic-bold"></iconify-icon>
+                                </button>
+                            </div>
+                            
+                            ${resource.description ? `
+                                <p class="text-gray-700 mb-3">${resource.description}</p>
+                            ` : ''}
+                            
+                            <div class="flex items-center justify-between">
+                                <a href="${resource.url}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-3 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 transition-colors">
+                                    <iconify-icon icon="solar:link-bold" class="mr-2"></iconify-icon>
+                                    Abrir recurso
+                                </a>
+                                <span class="text-xs text-gray-500">
+                                    ${new Date(resource.timestamp).toLocaleDateString('es-ES')}
+                                </span>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+                return `
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+                        <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
+                            <div class="flex items-center justify-between">
+                                <h3 class="text-lg font-semibold text-gray-900">${subject}</h3>
+                                <span class="text-sm text-gray-500">${subjectResources.length} recursos</span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="space-y-4">
+                                ${resourcesHtml}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            return `
+                <div class="space-y-6">
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-900">Biblioteca del Grupo</h2>
+                            <p class="text-gray-600">Recursos compartidos organizados por materia</p>
+                        </div>
+                        <button onclick="openAddResourceModal()" class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors">
+                            <iconify-icon icon="solar:add-circle-bold" class="mr-2"></iconify-icon>
+                            Agregar Recurso
+                        </button>
+                    </div>
+
+                    <!-- Filters and Search -->
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <div class="flex-1 relative">
+                                <input 
+                                    type="text" 
+                                    id="searchResources" 
+                                    placeholder="Buscar recursos por título, autor o descripción..."
+                                    class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                                    oninput="searchResources()"
+                                >
+                                <iconify-icon icon="solar:magnifer-bold" class="absolute left-3 top-2.5 text-gray-400"></iconify-icon>
+                            </div>
+                            <div class="flex gap-2 flex-wrap">
+                                <button onclick="filterResources('all')" class="filter-btn ${currentResourceFilter === 'all' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-700'} px-3 py-2 rounded-md text-sm transition-colors">
+                                    Todos
+                                </button>
+                                <button onclick="filterResources('documento')" class="filter-btn ${currentResourceFilter === 'documento' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-700'} px-3 py-2 rounded-md text-sm transition-colors">
+                                    📄 Documentos
+                                </button>
+                                <button onclick="filterResources('video')" class="filter-btn ${currentResourceFilter === 'video' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-700'} px-3 py-2 rounded-md text-sm transition-colors">
+                                    🎥 Videos
+                                </button>
+                                <button onclick="filterResources('enlace')" class="filter-btn ${currentResourceFilter === 'enlace' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-700'} px-3 py-2 rounded-md text-sm transition-colors">
+                                    🔗 Enlaces
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stats -->
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="bg-green-50 p-4 rounded-lg border border-green-200">
+                            <div class="text-2xl font-bold text-green-700">${resources.length}</div>
+                            <div class="text-green-600">Total Recursos</div>
+                        </div>
+                        <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                            <div class="text-2xl font-bold text-blue-700">${resources.filter(r => r.type === 'documento').length}</div>
+                            <div class="text-blue-600">Documentos</div>
+                        </div>
+                        <div class="bg-red-50 p-4 rounded-lg border border-red-200">
+                            <div class="text-2xl font-bold text-red-700">${resources.filter(r => r.type === 'video').length}</div>
+                            <div class="text-red-600">Videos</div>
+                        </div>
+                        <div class="bg-purple-50 p-4 rounded-lg border border-purple-200">
+                            <div class="text-2xl font-bold text-purple-700">${Object.keys(resourcesBySubject).length}</div>
+                            <div class="text-purple-600">Materias</div>
+                        </div>
+                    </div>
+
+                    <!-- Resources by Subject -->
+                    <div class="space-y-6">
+                        ${Object.keys(resourcesBySubject).length > 0 ? subjectSections : `
+                            <div class="text-center py-12 bg-white rounded-lg shadow-sm border border-gray-200">
+                                <iconify-icon icon="solar:library-bold" class="text-6xl text-gray-300 mb-4"></iconify-icon>
+                                <p class="text-gray-600 mb-4">No hay recursos compartidos aún.</p>
+                                <p class="text-gray-500 mb-6">Comienza agregando PDFs, enlaces, videos y otros materiales de estudio.</p>
+                                <button onclick="openAddResourceModal()" class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
+                                    <iconify-icon icon="solar:add-circle-bold" class="mr-2"></iconify-icon>
+                                    Agregar Primer Recurso
+                                </button>
+                            </div>
+                        `}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderAIAssistant() {
+            return `
+                <div class="max-w-4xl mx-auto">
+                    <!-- Header -->
+                    <div class="text-center mb-6">
+                        <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full mb-4">
+                            <iconify-icon icon="solar:cpu-bolt-bold" class="text-2xl text-white"></iconify-icon>
+                        </div>
+                        <h2 class="text-2xl font-bold text-gray-900 mb-2">Asistente Académico AI</h2>
+                        <p class="text-gray-600">Tu compañero inteligente para el éxito académico</p>
+                    </div>
+
+                    <!-- Chat Container -->
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 h-96 flex flex-col">
+                        <!-- Chat Messages -->
+                        <div id="chatMessages" class="flex-1 p-4 overflow-y-auto space-y-4">
+                            <div class="flex items-start space-x-3">
+                                <div class="w-8 h-8 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <iconify-icon icon="solar:cpu-bolt-bold" class="text-white text-sm"></iconify-icon>
+                                </div>
+                                <div class="bg-gray-100 rounded-lg p-3 max-w-xs">
+                                    <p class="text-sm text-gray-800">¡Hola! Soy tu asistente académico. Puedo ayudarte con:</p>
+                                    <ul class="text-xs text-gray-600 mt-2 space-y-1">
+                                        <li>• Consejos de estudio</li>
+                                        <li>• Organización de tareas</li>
+                                        <li>• Planificación académica</li>
+                                        <li>• Resolución de dudas</li>
+                                    </ul>
+                                    <p class="text-xs text-gray-600 mt-2">¿En qué puedo ayudarte?</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Chat Input -->
+                        <div class="border-t border-gray-200 p-4">
+                            <div class="flex space-x-3">
+                                <input 
+                                    type="text" 
+                                    id="chatInput" 
+                                    placeholder="Escribe tu pregunta aquí..."
+                                    class="flex-1 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                    onkeypress="handleChatKeyPress(event)"
+                                >
+                                <button onclick="sendMessage()" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                                    <iconify-icon icon="solar:send-bold"></iconify-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <button onclick="askAI('¿Cómo puedo mejorar mis técnicas de estudio?')" class="p-4 bg-blue-50 hover:bg-blue-100 rounded-lg border border-blue-200 transition-colors text-left">
+                            <iconify-icon icon="solar:book-bold" class="text-blue-600 text-xl mb-2"></iconify-icon>
+                            <div class="font-medium text-gray-900 text-sm">Técnicas de Estudio</div>
+                        </button>
+                        
+                        <button onclick="askAI('Ayúdame a organizar mis tareas pendientes')" class="p-4 bg-green-50 hover:bg-green-100 rounded-lg border border-green-200 transition-colors text-left">
+                            <iconify-icon icon="solar:clipboard-list-bold" class="text-green-600 text-xl mb-2"></iconify-icon>
+                            <div class="font-medium text-gray-900 text-sm">Organizar Tareas</div>
+                        </button>
+                        
+                        <button onclick="askAI('¿Cómo puedo manejar el estrés académico?')" class="p-4 bg-yellow-50 hover:bg-yellow-100 rounded-lg border border-yellow-200 transition-colors text-left">
+                            <iconify-icon icon="solar:heart-bold" class="text-yellow-600 text-xl mb-2"></iconify-icon>
+                            <div class="font-medium text-gray-900 text-sm">Manejo del Estrés</div>
+                        </button>
+                        
+                        <button onclick="askAI('Muéstrame un resumen de mi progreso académico')" class="p-4 bg-purple-50 hover:bg-purple-100 rounded-lg border border-purple-200 transition-colors text-left">
+                            <iconify-icon icon="solar:chart-bold" class="text-purple-600 text-xl mb-2"></iconify-icon>
+                            <div class="font-medium text-gray-900 text-sm">Mi Progreso</div>
+                        </button>
+                    </div>
+
+                    <!-- AI Info -->
+                    <div class="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
+                        <div class="flex items-start space-x-3">
+                            <iconify-icon icon="solar:info-circle-bold" class="text-blue-600 text-lg mt-0.5"></iconify-icon>
+                            <div class="text-sm text-blue-800">
+                                <p class="font-medium mb-1">Asistente AI Académico</p>
+                                <p>Este asistente utiliza inteligencia artificial para brindarte consejos personalizados basados en tu información académica. Las respuestas se generan en tiempo real para ayudarte con tus estudios.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Group Notes Functions
+        function loadGroupNotes() {
+            const saved = localStorage.getItem('groupNotesData_t3');
+            if (saved) {
+                try {
+                    groupNotes = JSON.parse(saved);
+                } catch (e) {
+                    groupNotes = [];
+                }
+            } else {
+                groupNotes = [];
+            }
+        }
+
+        function saveGroupNotes() {
+            localStorage.setItem('groupNotesData_t3', JSON.stringify(groupNotes));
+        }
+
+        window.openAddNoteModal = function() {
+            const modal = document.getElementById('addNoteModal');
+            const subjectSelect = document.getElementById('noteSubject');
+            
+            // Populate subjects dropdown
+            subjectSelect.innerHTML = '<option value="">Selecciona una materia</option>';
+            studyPlanData.forEach(subject => {
+                subjectSelect.innerHTML += `<option value="${subject.materia}">${subject.materia}</option>`;
+            });
+            
+            // Reset form
+            document.getElementById('noteAuthor').value = localStorage.getItem('lastAuthorName_t3') || '';
+            document.getElementById('noteContent').value = '';
+            document.getElementById('noteDate').value = '';
+            document.getElementById('noteType').value = 'tarea';
+            
+            modal.classList.remove('hidden');
+        };
+
+        window.closeAddNoteModal = function() {
+            document.getElementById('addNoteModal').classList.add('hidden');
+        };
+
+        window.saveNote = function() {
+            const author = document.getElementById('noteAuthor').value.trim();
+            const subject = document.getElementById('noteSubject').value;
+            const content = document.getElementById('noteContent').value.trim();
+            const dueDate = document.getElementById('noteDate').value;
+            const type = document.getElementById('noteType').value;
+            
+            if (!author || !subject || !content) {
+                alert('Por favor, completa todos los campos obligatorios (nombre, materia y descripción).');
+                return;
+            }
+            
+            // Save author name for future use
+            localStorage.setItem('lastAuthorName_t3', author);
+            
+            const newNote = {
+                id: Date.now(),
+                author: author,
+                subject: subject,
+                content: content,
+                dueDate: dueDate || null,
+                type: type,
+                timestamp: new Date().toISOString()
+            };
+            
+            groupNotes.unshift(newNote); // Add to beginning of array
+            saveGroupNotes();
+            closeAddNoteModal();
+            
+            if (currentPage === 'notes') {
+                renderPage();
+            }
+        };
+
+        window.deleteNote = function(noteId) {
+            if (confirm('¿Estás seguro de que quieres eliminar esta nota?')) {
+                groupNotes = groupNotes.filter(note => note.id !== noteId);
+                saveGroupNotes();
+                if (currentPage === 'notes') {
+                    renderPage();
+                }
+            }
+        };
+
+        window.filterNotes = function(filter) {
+            currentNoteFilter = filter;
+            if (filter === 'all') {
+                filteredNotes = [];
+            } else {
+                filteredNotes = groupNotes.filter(note => note.type === filter);
+            }
+            if (currentPage === 'notes') {
+                renderPage();
+            }
+        };
+
+        window.searchNotes = function() {
+            const searchTerm = document.getElementById('searchNotes').value.toLowerCase();
+            if (searchTerm.trim() === '') {
+                filteredNotes = currentNoteFilter === 'all' ? [] : groupNotes.filter(note => note.type === currentNoteFilter);
+            } else {
+                const baseNotes = currentNoteFilter === 'all' ? groupNotes : groupNotes.filter(note => note.type === currentNoteFilter);
+                filteredNotes = baseNotes.filter(note => 
+                    note.content.toLowerCase().includes(searchTerm) ||
+                    note.author.toLowerCase().includes(searchTerm) ||
+                    note.subject.toLowerCase().includes(searchTerm)
+                );
+            }
+            if (currentPage === 'notes') {
+                renderPage();
+            }
+        };
+
+        // Study Plan Functions
+        function loadPlan() {
+            const saved = localStorage.getItem('studyPlanData_t3');
+            if (saved) {
+                try {
+                    studyPlanData = JSON.parse(saved);
+                } catch (e) {
+                    studyPlanData = [...defaultPlanData];
+                }
+            } else {
+                studyPlanData = [...defaultPlanData];
+            }
+        }
+
+        function savePlan() {
+            localStorage.setItem('studyPlanData_t3', JSON.stringify(studyPlanData));
+        }
+
+        window.resetPlan = function() {
+            studyPlanData = [...defaultPlanData];
+            filteredPlanData = [];
+            savePlan();
+            if (currentPage === 'study-plan') {
+                renderPage();
+            }
+        };
+
+        window.searchSubjects = function() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            if (searchTerm.trim() === '') {
+                filteredPlanData = [];
+            } else {
+                filteredPlanData = studyPlanData.filter(subject => 
+                    subject.materia.toLowerCase().includes(searchTerm) ||
+                    subject.maestro.toLowerCase().includes(searchTerm)
+                );
+            }
+            renderPage();
+        };
+
+        // Modal Functions
+        window.openEditPlanModal = function() {
+            const modal = document.getElementById('editPlanModal');
+            const textarea = document.getElementById('planTextInput');
+            
+            // Pre-fill with current data
+            const currentPlanText = studyPlanData.map(subject => {
+                const parts = [subject.materia, subject.maestro, subject.horario, subject.modalidad];
+                if (subject.notas) parts.push(subject.notas);
+                return parts.join(' | ');
+            }).join('\n');
+            
+            textarea.value = currentPlanText;
+            modal.classList.remove('hidden');
+        };
+
+        window.closeEditPlanModal = function() {
+            document.getElementById('editPlanModal').classList.add('hidden');
+        };
+
+        window.savePlanFromModal = function() {
+            const textarea = document.getElementById('planTextInput');
+            const text = textarea.value.trim();
+            
+            if (!text) {
+                alert('Por favor, ingresa al menos una materia.');
+                return;
+            }
+            
+            const lines = text.split('\n').filter(line => line.trim() !== '');
+            const newPlanData = [];
+            
+            for (let line of lines) {
+                const parts = line.split('|').map(part => part.trim());
+                if (parts.length >= 4) {
+                    newPlanData.push({
+                        materia: parts[0] || '',
+                        maestro: parts[1] || '',
+                        horario: parts[2] || '',
+                        modalidad: parts[3] || '',
+                        notas: parts[4] || ''
+                    });
+                }
+            }
+            
+            if (newPlanData.length === 0) {
+                alert('No se pudo procesar ninguna materia. Verifica el formato.');
+                return;
+            }
+            
+            studyPlanData = newPlanData;
+            filteredPlanData = [];
+            savePlan();
+            closeEditPlanModal();
+            
+            if (currentPage === 'study-plan') {
+                renderPage();
+            }
+        };
+
+        // Birthday Functions
+        function loadBirthdays() {
+            const saved = localStorage.getItem('birthdaysData_t3');
+            if (saved) {
+                try {
+                    birthdays = JSON.parse(saved);
+                } catch (e) {
+                    birthdays = [];
+                }
+            } else {
+                birthdays = [];
+            }
+        }
+
+        function saveBirthdays() {
+            localStorage.setItem('birthdaysData_t3', JSON.stringify(birthdays));
+        }
+
+        window.openAddBirthdayModal = function() {
+            const modal = document.getElementById('addBirthdayModal');
+            
+            // Reset form
+            document.getElementById('birthdayName').value = '';
+            document.getElementById('birthdayDate').value = '';
+            document.getElementById('birthdayWhatsapp').value = '';
+            document.getElementById('birthdayNotes').value = '';
+            
+            modal.classList.remove('hidden');
+        };
+
+        window.closeAddBirthdayModal = function() {
+            document.getElementById('addBirthdayModal').classList.add('hidden');
+        };
+
+        window.saveBirthday = function() {
+            const name = document.getElementById('birthdayName').value.trim();
+            const date = document.getElementById('birthdayDate').value;
+            const whatsapp = document.getElementById('birthdayWhatsapp').value.trim();
+            const notes = document.getElementById('birthdayNotes').value.trim();
+            
+            if (!name || !date) {
+                alert('Por favor, completa todos los campos obligatorios (nombre y fecha de nacimiento).');
+                return;
+            }
+            
+            // Calculate age automatically
+            const birthDate = new Date(date);
+            const today = new Date();
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const monthDiff = today.getMonth() - birthDate.getMonth();
+            
+            // Adjust age if birthday hasn't occurred this year yet
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            
+            // Check if person already exists
+            const existingPerson = birthdays.find(b => b.name.toLowerCase() === name.toLowerCase());
+            if (existingPerson) {
+                alert('Esta persona ya está registrada en la lista de cumpleaños.');
+                return;
+            }
+            
+            const newBirthday = {
+                id: Date.now(),
+                name: name,
+                date: date,
+                age: age,
+                whatsapp: whatsapp || null,
+                notes: notes || null,
+                timestamp: new Date().toISOString()
+            };
+            
+            birthdays.push(newBirthday);
+            saveBirthdays();
+            closeAddBirthdayModal();
+            
+            if (currentPage === 'birthdays') {
+                renderPage();
+            }
+        };
+
+        window.deleteBirthday = function(birthdayId) {
+            if (confirm('¿Estás seguro de que quieres eliminar este cumpleaños?')) {
+                birthdays = birthdays.filter(birthday => birthday.id !== birthdayId);
+                saveBirthdays();
+                if (currentPage === 'birthdays') {
+                    renderPage();
+                }
+            }
+        };
+
+        // Resource/Library Functions
+        function loadResources() {
+            const saved = localStorage.getItem('resourcesData_t3');
+            if (saved) {
+                try {
+                    resources = JSON.parse(saved);
+                } catch (e) {
+                    resources = [];
+                }
+            } else {
+                resources = [];
+            }
+        }
+
+        function saveResources() {
+            localStorage.setItem('resourcesData_t3', JSON.stringify(resources));
+        }
+
+        window.openAddResourceModal = function() {
+            const modal = document.getElementById('addResourceModal');
+            const subjectSelect = document.getElementById('resourceSubject');
+            
+            // Populate subjects dropdown
+            subjectSelect.innerHTML = '<option value="">Selecciona una materia</option>';
+            studyPlanData.forEach(subject => {
+                subjectSelect.innerHTML += `<option value="${subject.materia}">${subject.materia}</option>`;
+            });
+            
+            // Reset form
+            document.getElementById('resourceAuthor').value = localStorage.getItem('lastAuthorName_t3') || '';
+            document.getElementById('resourceTitle').value = '';
+            document.getElementById('resourceUrl').value = '';
+            document.getElementById('resourceDescription').value = '';
+            document.getElementById('resourceType').value = 'documento';
+            
+            modal.classList.remove('hidden');
+        };
+
+        window.closeAddResourceModal = function() {
+            document.getElementById('addResourceModal').classList.add('hidden');
+        };
+
+        window.saveResource = function() {
+            const author = document.getElementById('resourceAuthor').value.trim();
+            const subject = document.getElementById('resourceSubject').value;
+            const title = document.getElementById('resourceTitle').value.trim();
+            const url = document.getElementById('resourceUrl').value.trim();
+            const description = document.getElementById('resourceDescription').value.trim();
+            const type = document.getElementById('resourceType').value;
+            
+            if (!author || !subject || !title || !url) {
+                alert('Por favor, completa todos los campos obligatorios (autor, materia, título y URL).');
+                return;
+            }
+            
+            // Basic URL validation
+            try {
+                new URL(url);
+            } catch (e) {
+                alert('Por favor, ingresa una URL válida (debe comenzar con http:// o https://).');
+                return;
+            }
+            
+            // Save author name for future use
+            localStorage.setItem('lastAuthorName_t3', author);
+            
+            const newResource = {
+                id: Date.now(),
+                author: author,
+                subject: subject,
+                title: title,
+                url: url,
+                description: description || null,
+                type: type,
+                timestamp: new Date().toISOString()
+            };
+            
+            resources.unshift(newResource); // Add to beginning of array
+            saveResources();
+            closeAddResourceModal();
+            
+            if (currentPage === 'library') {
+                renderPage();
+            }
+        };
+
+        window.deleteResource = function(resourceId) {
+            if (confirm('¿Estás seguro de que quieres eliminar este recurso?')) {
+                resources = resources.filter(resource => resource.id !== resourceId);
+                saveResources();
+                if (currentPage === 'library') {
+                    renderPage();
+                }
+            }
+        };
+
+        window.filterResources = function(filter) {
+            currentResourceFilter = filter;
+            if (filter === 'all') {
+                filteredResources = [];
+            } else {
+                filteredResources = resources.filter(resource => resource.type === filter);
+            }
+            if (currentPage === 'library') {
+                renderPage();
+            }
+        };
+
+        window.searchResources = function() {
+            const searchTerm = document.getElementById('searchResources').value.toLowerCase();
+            if (searchTerm.trim() === '') {
+                filteredResources = currentResourceFilter === 'all' ? [] : resources.filter(resource => resource.type === currentResourceFilter);
+            } else {
+                const baseResources = currentResourceFilter === 'all' ? resources : resources.filter(resource => resource.type === currentResourceFilter);
+                filteredResources = baseResources.filter(resource => 
+                    resource.title.toLowerCase().includes(searchTerm) ||
+                    resource.author.toLowerCase().includes(searchTerm) ||
+                    resource.subject.toLowerCase().includes(searchTerm) ||
+                    (resource.description && resource.description.toLowerCase().includes(searchTerm))
+                );
+            }
+            if (currentPage === 'library') {
+                renderPage();
+            }
+        };
+
+        // Initialize app
+        function init() {
+            loadPlan();
+            loadGroupNotes();
+            loadBirthdays();
+            loadResources();
+            loadEvents();
+            renderPage();
+        }
+
+        // Start the app
+        init();
+    </script>
+
+<!-- === Firebase Sync Layer (no cambia tu diseño) v2 with ID mapping === -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+  import { 
+    getAuth, onAuthStateChanged, 
+    signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut 
+  } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+  import { 
+    getFirestore, collection, addDoc, doc, deleteDoc,
+    onSnapshot, query, orderBy, serverTimestamp 
+  } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+  // << PEGAR TUS CREDENCIALES AQUI >>
+  const firebaseConfig = {
+    apiKey: "AIzaSyAmLvhQ92JIzGv4r9F2XOs6fS-WQM7D1YE",
+    authDomain: "academico-23bd0.firebaseapp.com",
+    projectId: "academico-23bd0",
+    storageBucket: "academico-23bd0.firebasestorage.app",
+    messagingSenderId: "866602451789",
+    appId: "1:866602451789:web:a2a80bf548ccaf2f4eed04"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  const GROUP_ID = "t3";
+
+  // === ID mapping (num <-> docId) para respetar tus onclick(números) ===
+  window._fbIdMap = { events: {}, notes: {}, birthdays: {}, resources: {} };
+  function hashToInt(str) {
+    let h = 5381;
+    for (let i = 0; i < str.length; i++) h = ((h << 5) + h) + str.charCodeAt(i);
+    return Math.abs(h);
+  }
+
+  function showAuthUI() {
+    const content = document.getElementById('content');
+    if (!content) return;
+    content.innerHTML = `
+      <div class="max-w-md mx-auto bg-white border rounded-lg p-6 mt-10">
+        <h2 class="text-xl font-bold mb-4">Acceso</h2>
+        <input id="email" type="email" placeholder="Correo" class="w-full border p-2 mb-2 rounded">
+        <input id="password" type="password" placeholder="Contraseña" class="w-full border p-2 mb-4 rounded">
+        <div class="flex gap-2">
+          <button id="loginBtn" class="px-4 py-2 bg-blue-600 text-white rounded">Entrar</button>
+          <button id="signupBtn" class="px-4 py-2 bg-gray-700 text-white rounded">Crear cuenta</button>
+        </div>
+      </div>
+    `;
+    document.getElementById('loginBtn').onclick = async () => {
+      const email = document.getElementById('email').value.trim();
+      const pass  = document.getElementById('password').value.trim();
+      try { await signInWithEmailAndPassword(auth, email, pass); } 
+      catch(e) { alert(e.message); }
+    };
+    document.getElementById('signupBtn').onclick = async () => {
+      const email = document.getElementById('email').value.trim();
+      const pass  = document.getElementById('password').value.trim();
+      try { await createUserWithEmailAndPassword(auth, email, pass); } 
+      catch(e) { alert(e.message); }
+    };
+  }
+
+  function ensureHeaderLogout() {
+    const headerBar = document.querySelector('header .flex.justify-between');
+    if (headerBar && !document.getElementById('logoutBtn')) {
+      const btn = document.createElement('button');
+      btn.id = 'logoutBtn';
+      btn.className = 'px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 rounded';
+      btn.innerText = 'Salir';
+      btn.onclick = () => signOut(auth);
+      headerBar.appendChild(btn);
+    }
+  }
+
+  function subscribeCollections(user) {
+    // EVENTS
+    const eventsCol = collection(db, 'groups', GROUP_ID, 'events');
+    const qEvents = query(eventsCol, orderBy('date', 'asc'));
+    onSnapshot(qEvents, (snap) => {
+      window.events = snap.docs.map(d => {
+        const num = hashToInt(d.id);
+        window._fbIdMap.events[num] = d.id;
+        return { id: num, ...d.data() };
+      });
+      if (window.currentPage === 'calendar' && typeof renderPage === 'function') renderPage();
+    });
+
+    // NOTES
+    const notesCol = collection(db, 'groups', GROUP_ID, 'notes');
+    const qNotes = query(notesCol, orderBy('createdAt', 'desc'));
+    onSnapshot(qNotes, (snap) => {
+      window.groupNotes = snap.docs.map(d => {
+        const num = hashToInt(d.id);
+        window._fbIdMap.notes[num] = d.id;
+        const data = d.data();
+        return {
+          id: num,
+          author: data.author || '',
+          subject: data.subject || '',
+          type: data.type || 'info',
+          dueDate: data.dueDate || null,
+          content: data.content || '',
+          timestamp: data.createdAt?.toDate ? data.createdAt.toDate().toISOString() : (data.createdAt || new Date().toISOString())
+        };
+      });
+      if (window.currentPage === 'notes' && typeof renderPage === 'function') renderPage();
+    });
+
+    // BIRTHDAYS
+    const bCol = collection(db, 'groups', GROUP_ID, 'birthdays');
+    const qB = query(bCol, orderBy('date', 'asc'));
+    onSnapshot(qB, (snap) => {
+      window.birthdays = snap.docs.map(d => {
+        const num = hashToInt(d.id);
+        window._fbIdMap.birthdays[num] = d.id;
+        const data = d.data();
+        return {
+          id: num,
+          name: data.name || '',
+          date: data.date || '',
+          whatsapp: data.whatsapp || '',
+          notes: data.notes || ''
+        };
+      });
+      if (window.currentPage === 'birthdays' && typeof renderPage === 'function') renderPage();
+    });
+
+    // RESOURCES
+    const rCol = collection(db, 'groups', GROUP_ID, 'resources');
+    const qR = query(rCol, orderBy('createdAt', 'desc'));
+    onSnapshot(qR, (snap) => {
+      window.resources = snap.docs.map(d => {
+        const num = hashToInt(d.id);
+        window._fbIdMap.resources[num] = d.id;
+        const data = d.data();
+        return {
+          id: num,
+          author: data.author || '',
+          subject: data.subject || '',
+          type: data.type || 'documento',
+          title: data.title || '',
+          url: data.url || '',
+          description: data.description || ''
+        };
+      });
+      if (window.currentPage === 'library' && typeof renderPage === 'function') renderPage();
+    });
+
+    // Overrides guardar/borrar con mapeo inverso
+    window.saveEvent = async function() {
+      const title = document.getElementById('eventTitle').value.trim();
+      const subject = document.getElementById('eventSubject').value;
+      const date = document.getElementById('eventDate').value;
+      const time = document.getElementById('eventTime').value;
+      const description = document.getElementById('eventDescription').value.trim();
+      const type = document.getElementById('eventType').value;
+      if (!title || !subject || !date) { alert('Completa título, materia y fecha.'); return; }
+      try {
+        await addDoc(eventsCol, {
+          title, subject, date, time: time || null, description: description || null, type,
+          createdBy: user.uid, createdAt: serverTimestamp()
+        });
+        if (typeof closeAddEventModal === 'function') closeAddEventModal();
+      } catch (e) { alert(e.message); }
+    };
+    window.deleteEvent = async function(eventId) {
+      const docId = window._fbIdMap.events[eventId] || eventId;
+      if (!docId) return;
+      if (!confirm('¿Eliminar este evento?')) return;
+      try { await deleteDoc(doc(eventsCol, String(docId))); } catch (e) { alert(e.message); }
+    };
+
+    window.saveNote = async function() {
+      const author = document.getElementById('noteAuthor').value.trim();
+      const subject = document.getElementById('noteSubject').value;
+      const type = document.getElementById('noteType').value;
+      const dueDate = document.getElementById('noteDate').value;
+      const content = document.getElementById('noteContent').value.trim();
+      if (!author || !subject || !type || !content) { alert('Completa nombre, materia, tipo y descripción.'); return; }
+      try {
+        await addDoc(notesCol, {
+          author, subject, type, dueDate: dueDate || null, content,
+          createdBy: user.uid, createdAt: serverTimestamp()
+        });
+        if (typeof closeAddNoteModal === 'function') closeAddNoteModal();
+      } catch (e) { alert(e.message); }
+    };
+    window.deleteNote = async function(noteId) {
+      const docId = window._fbIdMap.notes[noteId] || noteId;
+      if (!docId) return;
+      if (!confirm('¿Eliminar esta nota?')) return;
+      try { await deleteDoc(doc(notesCol, String(docId))); } catch (e) { alert(e.message); }
+    };
+
+    window.saveBirthday = async function() {
+      const name = document.getElementById('birthdayName').value.trim();
+      const date = document.getElementById('birthdayDate').value;
+      const whatsapp = document.getElementById('birthdayWhatsapp').value.trim();
+      const notes = document.getElementById('birthdayNotes').value.trim();
+      if (!name || !date) { alert('Completa nombre y fecha de nacimiento.'); return; }
+      try {
+        await addDoc(bCol, { name, date, whatsapp: whatsapp || '', notes: notes || '', createdBy: user.uid, createdAt: serverTimestamp() });
+        if (typeof closeAddBirthdayModal === 'function') closeAddBirthdayModal();
+      } catch (e) { alert(e.message); }
+    };
+    window.deleteBirthday = async function(birthdayId) {
+      const docId = window._fbIdMap.birthdays[birthdayId] || birthdayId;
+      if (!docId) return;
+      if (!confirm('¿Eliminar este cumpleaños?')) return;
+      try { await deleteDoc(doc(bCol, String(docId))); } catch (e) { alert(e.message); }
+    };
+
+    window.saveResource = async function() {
+      const author = document.getElementById('resourceAuthor').value.trim();
+      const subject = document.getElementById('resourceSubject').value;
+      const type = document.getElementById('resourceType').value;
+      const title = document.getElementById('resourceTitle').value.trim();
+      const url = document.getElementById('resourceUrl').value.trim();
+      const description = document.getElementById('resourceDescription').value.trim();
+      if (!author || !subject || !type || !title || !url) { alert('Completa todos los campos requeridos.'); return; }
+      try {
+        await addDoc(rCol, { author, subject, type, title, url, description: description || '', createdBy: user.uid, createdAt: serverTimestamp() });
+        if (typeof closeAddResourceModal === 'function') closeAddResourceModal();
+      } catch (e) { alert(e.message); }
+    };
+    window.deleteResource = async function(resourceId) {
+      const docId = window._fbIdMap.resources[resourceId] || resourceId;
+      if (!docId) return;
+      if (!confirm('¿Eliminar este recurso?')) return;
+      try { await deleteDoc(doc(rCol, String(docId))); } catch (e) { alert(e.message); }
+    };
+  }
+
+  onAuthStateChanged(auth, (user) => {
+    if (!user) { showAuthUI(); return; }
+    if (typeof renderPage === 'function') renderPage();
+    ensureHeaderLogout();
+    subscribeCollections(user);
+  });
+</script>
+<!-- === /Firebase Sync Layer v2 === -->
+
+</body>
+</html>
